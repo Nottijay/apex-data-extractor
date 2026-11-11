@@ -1,0 +1,39 @@
+{
+  "vendor_name": "APEX TECH SUPPLIES LTD.",
+  "invoice_number": "INV-8849",
+  "date": "2026-11-09",
+  "due_date": "2026-12-09",
+  "billing_party": {
+    "name": "Cloud Scale Systems Inc.",
+    "address": "1203 Bayk Om Et, Bamrles, CX 73309"
+  },
+  "line_items": [
+    {
+      "description": "Enterprise Server Racks (42U)",
+      "quantity": 1,
+      "unit_price": 260.00,
+      "amount": 3618.00
+    },
+    {
+      "description": "Cat6a Ethernet Cables (100ft Box)",
+      "quantity": 2,
+      "unit_price": 175.00,
+      "amount": 790.00
+    },
+    {
+      "description": "24-Port Managed Gigabit Switch",
+      "quantity": 1,
+      "unit_price": 140.00,
+      "amount": 240.00
+    }
+  ],
+  "printed_total": 3618.00,
+  "computed_total": 4648.00,
+  "needs_human_review": true,
+  "discrepancies": [
+    "Line Item 1: Quantity × Unit Price ($260.00) does not equal printed Amount ($3,618.00).",
+    "Line Item 2: Quantity × Unit Price ($350.00) does not equal printed Amount ($790.00).",
+    "Line Item 3: Quantity × Unit Price ($140.00) does not equal printed Amount ($240.00).",
+    "Sum of line items ($3,618.00 + $790.00 + $240.00 = $4,648.00) does not match the Grand Total Due ($3,618.00)."
+  ]
+}

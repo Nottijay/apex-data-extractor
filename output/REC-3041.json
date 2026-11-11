@@ -1,0 +1,37 @@
+{
+  "vendor_name": "NEXUS DIGITAL CONSULTING",
+  "invoice_number": "REC-3041",
+  "date": "2026-11-05",
+  "due_date": null,
+  "billing_party": {
+    "name": "GlobalNet Solutions",
+    "address": null
+  },
+  "line_items": [
+    {
+      "description": "Cloud Architecture Audit & Review",
+      "quantity": null,
+      "unit_price": null,
+      "amount": 1200.00
+    },
+    {
+      "description": "Database Optimization & Migration Sprint",
+      "quantity": null,
+      "unit_price": null,
+      "amount": 2700.00
+    },
+    {
+      "description": "Promo Discount (Early Bird Code: NEXUS10)",
+      "quantity": null,
+      "unit_price": null,
+      "amount": -300.00
+    }
+  ],
+  "printed_total": 2700.00,
+  "computed_total": 3600.00,
+  "needs_human_review": true,
+  "discrepancies": [
+    "Sum of line items ($1,200.00 + $2,700.00 - $300.00 = $3,600.00) does not match the TOTAL PAID ($2,700.00).",
+    "The total paid of $2,700.00 is inconsistent with the arithmetic sum of all line items ($3,600.00)."
+  ]
+}
