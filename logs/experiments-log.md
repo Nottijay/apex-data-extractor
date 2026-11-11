@@ -6,6 +6,8 @@
 **What went wrong:** The model added an unrequested `"currency": "USD"` field.
 **Fix for v2:** Update skill prompt to explicitly state "Strictly follow the JSON schema. Do not invent extra fields."
 
+
+
 ## Run 2 — v2 (File Saving & Strict Schema) — 2026-11-09
 **Model:** Qwen3.6 35B A3B · **Memory:** Default · **Script:** Network Upgrade Invoice
 
@@ -18,6 +20,9 @@
 **What went wrong:** None. (Checked JSON file, no extra fields added).
 **Root cause tag:** N/A
 **Fix for v3:** N/A
+
+
+
 
 ## Run 3 — v3 (Multi-Modal Vision Pipeline) — 2026-11-09
 **Architecture:** Main Agent (Qwen3.6 35B) + Vision Sub-Agent (Gemini) · **Script:** Image of Overlapping Invoices
@@ -43,6 +48,9 @@ The Gemini 2.5 Flash model has been deprecated by Google, causing the delegation
 **Root cause tag:** `api-deprecation` + `tool-bypass`
 **Fix for v4:** Update Subagent model in Hermes GUI to `gemini-3.8-flash` to restore the intended delegation pipeline.
 
+
+
+
 ## Run 4 — v4 (Vision Sub-Agent Test) — 2026-11-09
 **Architecture:** Qwen3.6 + Gemini 3.8 Flash · **Script:** Overlapping Invoices Image
 
@@ -56,6 +64,9 @@ The Gemini 2.5 Flash model has been deprecated by Google, causing the delegation
 3. Saved to a cache folder instead of the project folder.
 **Root cause tag:** `tool-bypass` + `path-mismatch`
 **Fix for v5:** Turn off local vision tool, update soul.md to use ocr instead , cause i also tried gemini 3.8 flash but results were similar, didnt work.
+
+
+
 
 ## Run 5 — v5 (Local OCR Integration) — 2026-11-09
 **Architecture:** Qwen3.6 35B + PaddleOCR MCP + File Operations
@@ -86,6 +97,9 @@ Replaced Gemini API with a local PaddleOCR MCP server to eliminate API timeouts.
 3. Delete the old `INV-8849.json` and `REC-3041.json` files manually to give v6 a clean slate.
 4. update both read_image and extract_invoice skill to be able to properly use ocr and finish task.
 
+
+
+
 ## Run 6 — v6 (The Clean Architecture) — 2026-11-10
 **Architecture:** Qwen3.6 35B + PaddleOCR MCP + File Operations
 **Model:** Qwen3.6 35B A3B · **Memory:** Default · **Script:** Overlapping Invoices Image
@@ -115,6 +129,8 @@ Replaced Gemini API with a local PaddleOCR MCP server to eliminate API timeouts.
 2. Install the MCP SDK if missing.
 3. Remove the math validation rule from `soul.md` entirely to stop the loop.
 
+
+
 ## Run 7 — v7 (The ETL Architecture & Guardrail Fail) — 2026-11-10
 **Architecture:** Qwen3.6 35B + PaddleOCR (MCP) + File Operations
 **Model:** Qwen3.6 35B A3B · **Memory:** Default · **Script:** Overlapping Invoices Image
@@ -140,3 +156,27 @@ Replaced Gemini API with a local PaddleOCR MCP server to eliminate API timeouts.
 **What went wrong:** The OCR tool returned empty results when called via MCP. The agent refused to fail gracefully, hallucinated instructions, and tried unauthorized workarounds.
 **Root cause tag:** `mcp-empty-payload` + `hallucination` + `goal-obsession`
 **Fix for v8:** The user implemented strict termination guardrails in `soul.md`. Next: Debug why the MCP tool returns empty text when the CLI test works perfectly.
+
+
+
+## Run 8 — v8 (The OCR Breakthrough) — 2026-11-10
+**Architecture:** Qwen3.6 35B + PaddleOCR MCP (Fixed) + File Operations
+**Model:** Qwen3.6 35B A3B · **Memory:** Default · **Script:** Overlapping Invoices Image
+
+**What we changed from v7:** 
+1. Installed missing `paddlepaddle` backend engine.
+2. Fixed a version-mismatch bug in the `paddleocr_mcp_server.py` code (updated the response key).
+3. Updated `read_image` skill to use dynamic `tool_search` + `tool_call` instead of hardcoded tool names.
+4. Moved the "STOP AND ESCALATE" error-handling rule from `soul.md` to the `read_image` skill for hard constraint enforcement.
+
+**Transcript:**
+> [User uploaded image]
+> Agent: Uses `tool_search` to find `mcp__paddleocr__ocr_image`. 
+> [Tool successfully returns 46 lines of OCR text]
+> Agent: Passes text to `extract_invoice` skill.
+> Agent: Saves JSON files (with discrepancies flagged) to the output folder.
+
+**Result:** PASS (Full Multi-Modal ETL Pipeline Success)
+**What went right:** The agent successfully extracted text via local OCR, processed it into structured JSON, flagged the math errors, and saved the files. The pipeline is 100% local and robust.
+**Root cause tag:** N/A (Resolved)
+**Fix for v9:** N/A for this project. Next step: Wrap up documentation and push to GitHub.
